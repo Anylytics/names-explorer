@@ -124,7 +124,7 @@ ngAppControllers.controller('mapController', ['$scope', '$http', function($scope
 	}
 
 	$scope.loadGeo = function() {
-		$http.get('./static/js/geo/us_states.JSON').success(function(data) {
+		$http.get('./static/js/geo/us_states.json').success(function(data) {
 			$scope.geojson_states.data = data;
 			$scope.geojson_states.resetStyleOnMouseout=true;
 			$scope.geojson_states.style = {
