@@ -1,26 +1,40 @@
 <!doctype html>
 <html ng-app = "ngApp">
 	<head>
-		<title>Flask-Angular Starter App</title>
 
-		<!--
-			This web application boilerplate project serves as a quick-start to building apps using: 
-				- Flask Web Server
-				- Angular based MVC/UI-routing 
-				- Material Design. 
+	<title>Names Explorer</title>
+
+	<!--
+		This web application boilerplate project serves as a quick-start to building apps using: 
+			- Flask Web Server
+			- Angular based MVC/UI-routing 
+			- Material Design. 
 		-->
 
 		<!-- Load Angular & Routing Module -->
 		<script src="./static/js/lib/angular.min.js"></script>
 		<script src="./static/js/lib/angular-route.min.js"></script>
+		<script src="./static/js/lib/angular-simple-logger.min.js"></script>
 
 		<!-- Load jQuery -->
 		<script src="./static/js/lib/jquery-2.1.4.min.js"></script>
 
+		<!-- ChartJS Module -->
+		<script src="./static/js/lib/Chart.min.js"></script>
+		<script src="./static/js/lib/angular-chart.min.js"></script>
+
 		<!-- Load Materialize & animate.css Files -->
 		<script src="./static/js/lib/materialize.min.js"></script>
+		<script src="./static/js/lib/nouislider.min.js"></script>
+		<script src="./static/js/lib/jquery.autocomplete.min.js"></script>
 		<link 	href="./static/css/materialize.min.css" rel="stylesheet">
 		<link 	href="./static/css/animate.css" rel="stylesheet">
+		<link 	href="./static/css/nouislider.css" rel="stylesheet">
+
+		<!-- Load Leaflet -->
+		<script src="./static/js/lib/leaflet.js"></script>
+		<script src="./static/js/lib/angular-leaflet-directive.min.js"></script>
+		<link 	href="./static/css/leaflet.css" rel="stylesheet">
 
 		<!-- Load site specific Angular & Style files -->
 		<script src="./static/js/app.js"></script>
@@ -31,7 +45,21 @@
 
 	<body>
 
-  		<div ng-view></div>
+		<nav class="green lighten-1">
+			<div class="nav-wrapper container">
+				<a href="http://anylytics.io" class="brand-logo">Anylytics</a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="./#/home">Names Histogram</a></li>
+					<li><a href="./#/map">Map</a></li>
+					<li><a href="mailto:hello@anlytics.io">Contact</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div>
+			<div ng-view></div>
+		</div>
+
 
 	</body>
 

@@ -27,14 +27,37 @@ def connect_db():
 def home_page():
     return render_template('index.html')
 
-
 @app.route('/getNamesByYear/<year>')
 def find_namesByYear(year):
 	data = []
 	c = get_db().cursor()
-	for row in c.execute('SELECT Name, Frequency FROM stateNames WHERE Year=?', [year]):
+	for row in c.execute('SELECT Name, Frequency FROM stateNames WHERE Year=? ORDER BY Frequency DESC LIMIT 100', [year]):
 		data.append({"name":row[0], "frequency":row[1]})
 	return jsonify(names=data)
+
+@app.route('/getFrequencyOfNameByState/<name>/<year>')
+def find_frequencyByYearByState(name, year):
+	data = []
+	c = get_db().cursor()
+	for row in c.execute('SELECT Name, Frequency, State, Gender from stateNames WHERE Name = ? AND Year = ?', [name, year]):
+		data.append({"name":row[0], "frequency":row[1], "state":row[2], "gender":row[3]})
+	return jsonify(names=data)
+
+@app.route('/getFrequencyOfName/<name>/<yearmin>/<yearmax>/<gender>')
+def find_frequencyByYear(name, yearmin, yearmax, gender):
+	data = []
+	c = get_db().cursor()
+	for row in c.execute('SELECT Name, SUM(Frequency), Year, Gender from stateNames WHERE Name = ? AND Year>=? AND YEAR<=? AND GENDER=? GROUP BY Year, Gender', [name, yearmin, yearmax, gender]):
+		data.append({"name":row[0], "frequency":row[1], "year":row[2], "gender":row[3]})
+	return jsonify(names=data)
+
+@app.route('/names_suggest/<name_partial>')
+def return_nameSuggestions(name_partial):
+	data = []
+	c = get_db().cursor()
+	for row in c.execute('SELECT Name, SUM(Frequency) from stateNames WHERE Name LIKE ? GROUP BY Name ORDER BY SUM(Frequency) desc LIMIT 15', ['%'+name_partial+'%']):
+		data.append({"value":row[0], "data":row[0]})
+	return jsonify(suggestions=data)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,19 @@
+<style>
+.debug-control {
+	bottom:20px;
+	right:20px;
+	position:fixed;
+}
+</style>
+
+<div>
+	<leaflet width="100%" height="calc(100vh - 64px)" center="center" geojson="geojson_states"></leaflet>
+	<div class="interactionLayer">
+		<div class="card grey darken-2 debug-control">
+			<div class="card-content white-text">
+			<a class="btn" ng-click="loadGeo()"> Load Geo </a>
+			<a class="btn" ng-click="getFrequencyByYear()"> Load Names </a>
+			</div>
+		</div>
+	</div>
+</div>

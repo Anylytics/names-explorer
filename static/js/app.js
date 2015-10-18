@@ -1,4 +1,4 @@
-var ngApp = angular.module('ngApp', ['ngRoute', 'ngAppControllers']);
+var ngApp = angular.module('ngApp', ['ngRoute', 'ngAppControllers', 'chart.js', 'leaflet-directive']);
 
 ngApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
@@ -6,8 +6,12 @@ ngApp.config(['$routeProvider', function($routeProvider) {
         templateUrl: './static/partials/home.html',
         controller: 'homeController'
       }).
+      when('/map', {
+        templateUrl: './static/partials/map.html',
+        controller: 'mapController'
+      }).
       when('/home/:name', {
-        templateUrl: './static/partials/home.html',
+        templateUrl: './static/partials/urlParm.html',
         controller: 'urlParamsController'
       }).
       otherwise({

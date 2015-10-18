@@ -1,3 +1,56 @@
-<div>
-	Hello, {{data}}
+<div class="container">
+	
+	<div class="row">
+		<div class="col s12 m3">
+			<div class="card grey darken-2">
+				<div class="progress" ng-show="loadingSettings">
+					<div class="indeterminate"></div>
+				</div>
+				<div class="card-content white-text">
+					<span class="card-title">Histogram Settings</span>
+					<p>Use the following settings to build a histogram chart of a provided name</p><br/>
+
+					<div class="divider"></div>
+					<div class="section">
+						<h6>Select A Name</h6>
+						<input type="text" ng-model="selectedName" id="autocomplete_histName"/>
+					</div>
+
+					<div class="divider"></div>
+					<div class="section">
+						<h6>Choose a year range [1910 - 2014]</h6>
+						<div class="row">
+							<div class="col s2">{{year_min}}</div>
+							<div id="histByYear_slider" class="col s8"></div>
+							<div class="col s2 right">{{year_max}}</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="card-action right">
+					<a ng-click="generateChart()">Generate Chart</a>
+				</div>
+			</div>
+		</div>
+		<div class="col s12 m9">
+			<div class="card black darken-2">
+				<div class="progress" ng-show="loadingHist">
+					<div class="indeterminate"></div>
+				</div>
+				<div class="card-content white-text">
+					<span class="card-title">Name distribution by Year</span>
+					
+					<canvas id="bar" class="chart chart-bar"
+							chart-data="data" chart-labels="labels">
+					</canvas
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--
+	<input ng-model="year" type="number"/>
+	<a class="btn" ng-click="getNames(year)">Get Top Names for {{year}}</a>
+
+	<p ng-repeat="name in names | limitTo:20 track by $index">The name {{name.name}} was chosen <span style="font-weight:bold;">{{name.frequency}}</span> in {{year}}</p>
+	-->
 </div>
