@@ -4,15 +4,28 @@
 	right:20px;
 	position:fixed;
 }
+.name-input {
+	top:75px;
+	right:20px;
+	position:fixed;
+}
 </style>
 
 <div>
+	<div class="progress" ng-show="loading" style="top:64px;">
+		<div class="indeterminate"></div>
+	</div>
 	<leaflet width="100%" height="calc(100vh - 64px)" center="center" geojson="geojson_states"></leaflet>
 	<div class="interactionLayer">
 		<div class="card grey darken-2 debug-control">
 			<div class="card-content white-text">
 			<a class="btn" ng-click="loadGeo()"> Load Geo </a>
 			<a class="btn" ng-click="getFrequencyByYear()"> Load Names </a>
+			</div>
+		</div>
+		<div class="card white name-input">
+			<div class="card-content grey-text text-darken-3">
+				<input placeholder="Just start typing!" autofocus type="text" ng-model="currentName" id="autocomplete_histName"/>
 			</div>
 		</div>
 	</div>

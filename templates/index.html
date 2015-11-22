@@ -4,13 +4,6 @@
 
 	<title>Names Explorer</title>
 
-	<!--
-		This web application boilerplate project serves as a quick-start to building apps using: 
-			- Flask Web Server
-			- Angular based MVC/UI-routing 
-			- Material Design. 
-		-->
-
 		<!-- Load Angular & Routing Module -->
 		<script src="./static/js/lib/angular.min.js"></script>
 		<script src="./static/js/lib/angular-route.min.js"></script>
@@ -28,6 +21,7 @@
 		<script src="./static/js/lib/nouislider.min.js"></script>
 		<script src="./static/js/lib/jquery.autocomplete.min.js"></script>
 		<link 	href="./static/css/materialize.min.css" rel="stylesheet">
+		<link 	href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link 	href="./static/css/animate.css" rel="stylesheet">
 		<link 	href="./static/css/nouislider.css" rel="stylesheet">
 
@@ -43,15 +37,16 @@
 
 	</head>
 
-	<body>
+	<body ng-controller="indexController">
 
 		<nav class="green lighten-1">
 			<div class="nav-wrapper container">
-				<a href="http://anylytics.io" class="brand-logo">Anylytics</a>
+				<a href="http://anylytics.io" class="brand-logo">Census Names Explorer</a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
 					<li><a href="./#/home">Names Histogram</a></li>
 					<li><a href="./#/map">Map</a></li>
 					<li><a href="mailto:hello@anlytics.io">Contact</a></li>
+					<li><a class="green darken-1" ng-click="about()">About</a></li>
 				</ul>
 			</div>
 		</nav>
