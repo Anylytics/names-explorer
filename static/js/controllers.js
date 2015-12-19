@@ -25,7 +25,7 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 	};
 
 	$('#autocomplete_histName').autocomplete({
-		serviceUrl: '/names_suggest',
+		serviceUrl: 'names_suggest',
 		deferRequestBy: 300,
 		onSearchStart: function(query){$scope.loading=true},
 		onSearchComplete: function(query){$scope.loading=false},
