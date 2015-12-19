@@ -67,3 +67,8 @@ span.emphasis {
 .switch label input[type=checkbox]:checked+.lever:after {
 	background-color:lightpink;
 }
+
+.caps {
+	text-transform: uppercase;
+	font-weight: bold;
+}

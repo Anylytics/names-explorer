@@ -1,76 +1,18 @@
+<div class="progress" ng-show="loading">
+	<div class="indeterminate"></div>
+</div>
 <div class="container">
-	
-	<div class="row">
-		<div class="col {{sizing.settings}}">
-			<div class="card grey darken-2">
-				<div class="progress" ng-show="loadingSettings">
-					<div class="indeterminate"></div>
-				</div>
-				<div class="card-content white-text row">
-					<span class="card-title col {{sizing.settingsContentTitle}}">Histogram Settings</span>
-					<p>Use the following settings to build a histogram chart of a provided name</p><br/>
 
-					<div class="col {{sizing.settingsContent}}">
-						<div class="card white">
-							<div class="card-content black-text center">
-								<h6>Search for a <span ng-show="!genderVal">Male</span><span ng-show="genderVal">Female</span> name:</h6>
-								<div class="switch center">
-									<label>
-										Male
-										<input type="checkbox" ng-model="genderVal">
-										<span class="lever grey lighten-2"></span>
-										Female
-									</label>
-								</div>
-								<input placeholder="Just start typing!" autofocus type="text" ng-model="selectedName" id="autocomplete_histName"/>
-								<div class="chip" ng-repeat="name in currentLoadedName track by $index">
-									{{name.name}}:{{name.gender}}
-									<!--i class="material-icons">close</i-->
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="col {{sizing.settingsContent}}">
-						<div class="card white">
-							<div class="card-content black-text">
-								<h6>Choose a year range:</h6>
-								<div id="histByYear_slider"></div><br/>
-								<p class="right">Search from <span class="emphasis teal-text">{{year_min}}</span> to <span class="emphasis teal-text">{{year_max}}</span></p>
-							</div>
-						</div>
-					</div>
-					
-				</div>
-				<div class="card-action right">
-					<a ng-click="generateChart()">Generate Chart</a>
-				</div>
-			</div>
-		</div>
-		<div class="col {{sizing.chart}}">
-			<div class="card black darken-2">
-				<i ng-click="toggleSizing()" class="material-icons expandIcon">open_with</i>
-				<div class="progress" ng-show="loadingHist">
-					<div class="indeterminate"></div>
-				</div>
-				<div class="card-content white-text">
-					<span class="card-title">Name distribution by Year for <span ng-repeat="name in currentLoadedName track by $index">
-						<span ng-show="name.gender=='M'" class="blue-text text-lighten-3">{{name.name}}</span>
-						<span ng-show="name.gender=='F'" class="red-text text-lighten-3">{{name.name}}</span>
-						<span ng-show="($index+1)!=currentLoadedName.length">,</span>
-					</span></span>
-					
-					<canvas id="bar" class="chart chart-bar"
-							chart-data="data" chart-labels="labels">
-					</canvas
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--
-	<input ng-model="year" type="number"/>
-	<a class="btn" ng-click="getNames(year)">Get Top Names for {{year}}</a>
+	<h5 class="caps">Historical Name Comparison Tool</h5>
+	<p class="flow-text">
+		Ever wondered what other names were popular during the same time as yours? Now you can find out!
+	</p>
 
-	<p ng-repeat="name in names | limitTo:20 track by $index">The name {{name.name}} was chosen <span style="font-weight:bold;">{{name.frequency}}</span> in {{year}}</p>
-	-->
+	<input placeholder="Just start typing!" autofocus type="text" ng-model="selectedName" id="autocomplete_histName"/>
+	<canvas id="line" class="chart chart-line" chart-data="data"
+		chart-labels="labels" chart-legend="true" chart-series="series"
+		chart-click="onClick" >
+	</canvas> 
+
+
 </div>
