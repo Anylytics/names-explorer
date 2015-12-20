@@ -9,6 +9,12 @@
 	</p>
 
 	<input placeholder="Just start typing!" autofocus type="text" ng-model="selectedName" id="autocomplete_histName"/>
+
+	<p>Now analyzing <ul>  {{selected_name}}  </ul></p>
+
+	{{series}}
+	<input type="textarea" value="{{data}}">
+
 	<canvas id="line" class="chart chart-line" chart-data="data" chart-options="options"
 		chart-labels="labels" chart-legend="true" chart-series="series"
 		chart-click="onClick" >

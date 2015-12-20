@@ -6,8 +6,9 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 	
 
 	//$scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+	$scope.selected_name = "";
 	$scope.labels=[1915,1916,1917,1918,1919,1920,1921,1922,1923,1924,1925,1926,1927,1928,1929,1930,1931,1932,1933,1934,1935,1936,1937,1938,1939,1940,1941,1942,1943,1944,1945,1946,1947,1948,1949,1950,1951,1952,1953,1954,1955,1956,1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014];
-	$scope.series = ['James', 'James.1','David','Richard','Thomas'];
+	$scope.seriesBackup = ['James', 'James.1','David','Richard','Thomas'];
 	$scope.options = {
 		scaleShowGridLines : false,
 		pointDot : false,
@@ -21,6 +22,7 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 		[11490,11997,12612,13911,13436,14937,15309,15267,15884,16554,16688,16602,17016,16577,16267,17016,16837,16827,16498,17369,17674,18340,19772,21373,22124,23985,26641,31102,32865,31595,31877,38864,44838,43798,45201,45620,48237,48617,46967,47131,45807,44800,44580,42062,40286,39299,37544,36536,35509,34464,31635,29017,28285,27456,27491,26689,23165,19571,17941,17286,16558,16119,16602,16490,16475,17566,17162,17576,17559,17588,17590,17343,18120,18791,18431,18214,16780,15283,14859,14903,14159,13797,12894,12883,12790,12638,12147,11291,10930,10495,10033,9504,8921,8349,7715,7114,6896,6823,6756,6972]
 	];
 	$scope.data = [];
+	$scope.series = [];
 
 
 	$scope.onClick = function (points, evt) {
@@ -35,43 +37,33 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 		onSearchStart: function(query){$scope.loading=true},
 		onSearchComplete: function(query){$scope.loading=false},
 		onSelect: function (suggestion) {
-			$scope.setURL(suggestion.value);
+			$scope.getSimilarNames(suggestion.value);
 		}
 	});
 
-	$scope.setURL = function(inputVal) {
-		//alert(inputVal);
-		/*$http.jsonp("https://dev13895.service-now.com/similar_names.do?input_name="+inputVal).
-		  success(function(data) {
-		    //$scope.data = data;
-		    console.log(data);
-		  }).
-		  error(function (data) {
-		    console.log("failed");
-		  });*/
-		$scope.data = $scope.dataBackup;
-		$http.jsonp('https://dev13895.service-now.com/similar_names.do?input_name='+inputVal+'&callback=JSON_CALLBACK')
+	$scope.getSimilarNames = function(inputVal) {
+		//$scope.data = $scope.dataBackup;
+		$http.get('https://dev13895.service-now.com/similar_names.do?input_name='+inputVal)
+			.success(function(data){
+				//console.log(data.results);
+				$scope.selected_name = inputVal;
+				$scope.buildData(data.results);
+			});
+	};
+
+	$scope.buildData = function(names) {
+		console.log(names);
+		$http.get('https://dev13895.service-now.com/name_frame.do?names='+names)
 			.success(function(data){
 				console.log(data);
+				for (var i=0; i<data.length; i++) {
+					console.log('running...');
+					$scope.series.push(data[i].name);
+					$scope.data.push(JSON.parse(data[i].data));
+				}
+				$scope.$apply;
 			});
-		//console.log($http.jsonp('https://dev13895.service-now.com/similar_names.do?input_name='+inputVal+'&callback=JSON_CALLBACK'));
-		/*.
-		then(function successCallback(response) {
-			// this callback will be called asynchronously
-			// when the response is available
-			console.log(JSON.stringify(response));
-			alert(JSON.stringify(response));
-		}, function errorCallback(response) {
-			// called asynchronously if an error occurs
-			// or server returns response with an error status.
-			alert(JSON.stringify(response));
-		});
-		.success( function(response) {
-			//Write data to local ng variable
-			console.log(JSON.stringify(response));
-			alert(response);
-		});*/
-	};
+	}
 
 	//$scope.data = $routeParams.name + " from URL parameter";
 }]);
