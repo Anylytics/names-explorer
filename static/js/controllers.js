@@ -3,7 +3,19 @@ var ngAppControllers = angular.module('ngAppControllers', []);
 
 ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http', function($scope, $routeParams, $http) {
 	//Example of a basic controller, includes ability to pull route parameters ($routeParams.name defined in app.js routing configuration)
+
+	$(document).ready(function() {
+		$('select').material_select();
+	});
 	
+	$scope.config = {
+		"inactive_stroke_opacity":0.2,
+		"inactive_fill_opacity":0,
+		"active_stroke_opacity":1,
+		"active_fill_opacity":0.2,
+		"point_opacity":1,
+		"color":153
+	};
 
 	//$scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
 	$scope.selected_name = "";
@@ -11,9 +23,35 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 	$scope.seriesBackup = ['James', 'James.1','David','Richard','Thomas'];
 	$scope.options = {
 		scaleShowGridLines : false,
-		pointDot : false,
-		bezierCurve : false
+		pointDot : false
 	};
+	$scope.colors = [
+		{
+			fillColor: "rgba("+$scope.config.color+",188,206,"+$scope.config.active_fill_opacity+")",
+			strokeColor: "rgba(153,188,206,"+$scope.config.active_stroke_opacity+")",
+			pointColor: "rgba(153,188,206,"+$scope.config.point_opacity+")"
+		},
+		{
+			fillColor: "rgba(247,70,74,"+$scope.config.inactive_fill_opacity+")",
+			strokeColor: "rgba(247,70,74,"+$scope.config.inactive_stroke_opacity+")",
+			pointColor: "rgba(247,70,74,"+$scope.config.point_opacity+")"
+		},
+		{
+			fillColor: "rgba(70,191,189,"+$scope.config.inactive_fill_opacity+")",
+			strokeColor: "rgba(70,191,189,"+$scope.config.inactive_stroke_opacity+")",
+			pointColor: "rgba(70,191,189,"+$scope.config.point_opacity+")"
+		},
+		{
+			fillColor: "rgba(153,188,206,"+$scope.config.inactive_fill_opacity+")",
+			strokeColor: "rgba(153,188,206,"+$scope.config.inactive_stroke_opacity+")",
+			pointColor: "rgba(153,188,206,"+$scope.config.point_opacity+")"
+		},
+		{
+			fillColor: "rgba(253,180,92,"+$scope.config.inactive_fill_opacity+")",
+			strokeColor: "rgba(253,180,92,"+$scope.config.inactive_stroke_opacity+")",
+			pointColor: "rgba(253,180,92,"+$scope.config.point_opacity+")"
+		}
+	];
 	$scope.dataBackup = [
 		[33776,35569,37340,42122,42390,47917,49748,49813,50464,52936,52688,53208,53663,52750,52116,53933,51199,51922,51099,54236,54986,54672,56546,59092,59627,62472,66719,77173,80248,76944,74450,87425,94755,88596,86856,86221,87175,87083,85946,86277,84130,84860,84242,78731,78597,76872,75896,72563,71332,73050,67707,65193,61704,60730,59940,61775,54608,47084,42896,41365,39595,38311,40051,39908,39371,39312,38301,38867,36336,35843,35840,34026,32628,32490,32695,32344,30501,28502,26249,24764,22727,21152,20399,19682,18550,17974,17066,16951,16888,16451,16120,16226,15941,15154,14175,13852,13227,13385,13502,14301],
 		[33776,35569,37340,42122,42390,47917,49748,49813,50464,52936,52688,53208,53663,52750,52116,53933,51199,51922,51099,54236,54986,54672,56546,59092,59627,62472,66719,77173,80248,76944,74450,87425,94755,88596,86856,86221,87175,87083,85946,86277,84130,84860,84242,78731,78597,76872,75896,72563,71332,73050,67707,65193,61704,60730,59940,61775,54608,47084,42896,41365,39595,38311,40051,39908,39371,39312,38301,38867,36336,35843,35840,34026,32628,32490,32695,32344,30501,28502,26249,24764,22727,21152,20399,19682,18550,17974,17066,16951,16888,16451,16120,16226,15941,15154,14175,13852,13227,13385,13502,14301],
@@ -56,12 +94,17 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 		$http.get('https://dev13895.service-now.com/name_frame.do?names='+names)
 			.success(function(data){
 				console.log(data);
+				$scope.data = [];
+				$scope.series = [];
 				for (var i=0; i<data.length; i++) {
-					console.log('running...');
+					var data_array = JSON.parse(data[i].data);
+					data_array = data_array.slice(-(100));
+					console.log(data_array.length);
 					$scope.series.push(data[i].name);
-					$scope.data.push(JSON.parse(data[i].data));
+					$scope.data.push(data_array);
 				}
 				$scope.$apply;
+				$('select').material_select();
 			});
 	}
 

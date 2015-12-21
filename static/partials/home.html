@@ -8,15 +8,29 @@
 		Ever wondered what other names were popular during the same time as yours? Now you can find out!
 	</p>
 
-	<input placeholder="Just start typing!" autofocus type="text" ng-model="selectedName" id="autocomplete_histName"/>
 
-	<p>Now analyzing <ul>  {{selected_name}}  </ul></p>
+	<div class="flow-text">
+		<input placeholder="Just start typing!" autofocus type="text" ng-model="selectedName" id="autocomplete_histName"/>
+	</div>
+
+	<div class="animated slideInDown names-picker">
+		<form action="#">
+			<div ng-repeat = "name in series">
+				<input name="group1" type="radio" id="{{$index}}" ng-model="name==selected_name" ng-value="true"/>
+				<label for="{{$index}}">{{name}}</label>
+			</div>
+		</form>
+	</div>
+
 
 	<!--{{series}}
 	<input type="textarea" value="{{data}}">-->
 
 	<canvas id="line" class="chart chart-line" chart-data="data" chart-options="options"
-		chart-labels="labels" chart-legend="true" chart-series="series"
+		chart-labels="labels" 
+		chart-legend="true" 
+		chart-series="series"
+		chart-colours="colors"
 		chart-click="onClick" >
 	</canvas> 
 
