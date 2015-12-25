@@ -1,13 +1,16 @@
 var ngAppControllers = angular.module('ngAppControllers', []);
 
 
-ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http', function($scope, $routeParams, $http) {
+ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http', '$location', function($scope, $routeParams, $http, $location) {
 	//Example of a basic controller, includes ability to pull route parameters ($routeParams.name defined in app.js routing configuration)
 
 	$(document).ready(function() {
 		$('select').material_select();
 	});
 	
+	$scope.normalized = false;
+	$scope.gender_switch = false;
+	$scope.gender = "M";
 	$scope.config = {
 		"inactive_stroke_opacity":0.2,
 		"inactive_fill_opacity":0,
@@ -69,6 +72,23 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 		//Materialize.toast("Clicked " + JSON.stringify(points), 1000);
 	};
 
+	$scope.flipGender = function() {
+		$scope.gender = "M";
+		if ($scope.gender_switch) {
+			$scope.gender = "F";
+		}
+
+		$scope.buildData();
+	}
+
+	$scope.$watch('gender_switch', function(newValue, oldValue) {
+		$scope.flipGender();
+	});
+
+	$scope.$watch('normalized', function(newValue, oldValue) {
+		$scope.buildData();
+	});
+
 	$('#autocomplete_histName').autocomplete({
 		serviceUrl: 'https://dev13895.service-now.com/names_suggest.do',
 		deferRequestBy: 300,
@@ -85,13 +105,14 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 			.success(function(data){
 				//console.log(data.results);
 				$scope.selected_name = inputVal;
-				$scope.buildData(data.results);
+				$scope.similar_names = data.results;
+				$scope.buildData();
 			});
 	};
 
-	$scope.buildData = function(names) {
-		console.log(names);
-		$http.get('https://dev13895.service-now.com/name_frame.do?names='+names)
+	$scope.buildData = function() {
+		console.log($scope.similar_names);
+		$http.get('https://dev13895.service-now.com/name_frame.do?normalized='+$scope.normalized+'&names='+$scope.similar_names+'&gender='+$scope.gender)
 			.success(function(data){
 				console.log(data);
 				$scope.data = [];

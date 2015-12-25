@@ -60,13 +60,13 @@ span.emphasis {
 	transition: all 0.4s;
 }
 
-.switch label .lever:after {
+/*.switch label .lever:after {
 	background-color:lightblue;
 }
 
 .switch label input[type=checkbox]:checked+.lever:after {
 	background-color:lightpink;
-}
+}*/
 
 .caps {
 	text-transform: uppercase;

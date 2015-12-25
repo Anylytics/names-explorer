@@ -8,15 +8,32 @@
 		Ever wondered what other names were popular during the same time as yours? Now you can find out!
 	</p>
 
-
 	<div class="flow-text">
 		<input placeholder="Just start typing!" autofocus type="text" ng-model="selectedName" id="autocomplete_histName"/>
+		<div class="switch right">
+			Normalization<br/>
+			<label>
+				Raw
+				<input type="checkbox" ng-model="normalized">
+				<span class="lever"></span>
+				Normalized
+			</label>
+		</div>
+		<div class="switch">
+			Current Gender: {{gender}}<br/>
+			<label>
+				Male
+				<input type="checkbox" ng-model="gender_switch">
+				<span class="lever"></span>
+				Female
+			</label>
+		</div>
 	</div>
 
 	<div class="animated slideInDown names-picker">
 		<form action="#">
 			<div ng-repeat = "name in series">
-				<input name="group1" type="radio" id="{{$index}}" ng-model="name==selected_name" ng-value="true"/>
+				<input name="group1" type="radio" id="{{$index}}" ng-model="name==selected_name" ng-value="true" ng-click="selected_name=name"/>
 				<label for="{{$index}}">{{name}}</label>
 			</div>
 		</form>
