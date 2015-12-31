@@ -95,24 +95,27 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 		onSearchStart: function(query){$scope.loading=true},
 		onSearchComplete: function(query){$scope.loading=false},
 		onSelect: function (suggestion) {
-			$scope.getSimilarNames(suggestion.value);
-		}
+			$scope.getSimilarNames(suggestion.data);
+		},
+		showNoSuggestionNotice: true,
+		noSuggestionNotice: 'Sorry, no matching names',
+		groupBy: 'gender'
 	});
 
 	$scope.getSimilarNames = function(inputVal) {
 		//$scope.data = $scope.dataBackup;
 		$http.get('https://dev13895.service-now.com/similar_names.do?input_name='+inputVal)
 			.success(function(data){
-				//console.log(data.results);
+				console.log(data);
 				$scope.selected_name = inputVal;
-				$scope.similar_names = data.results;
+				$scope.similar_names = data;
 				$scope.buildData();
 			});
 	};
 
 	$scope.buildData = function() {
 		console.log($scope.similar_names);
-		$http.get('https://dev13895.service-now.com/name_frame.do?normalized='+$scope.normalized+'&names='+$scope.similar_names+'&gender='+$scope.gender)
+		$http.get('https://dev13895.service-now.com/name_frame.do?normalized='+$scope.normalized+'&names='+JSON.stringify($scope.similar_names))
 			.success(function(data){
 				console.log(data);
 				$scope.data = [];

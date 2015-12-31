@@ -7,49 +7,81 @@
 	<p class="flow-text">
 		Ever wondered what other names were popular during the same time as yours? Now you can find out!
 	</p>
+									
 
-	<div class="flow-text">
-		<input placeholder="Just start typing!" autofocus type="text" ng-model="selectedName" id="autocomplete_histName"/>
-		<div class="switch right">
-			Normalization<br/>
-			<label>
-				Raw
-				<input type="checkbox" ng-model="normalized">
-				<span class="lever"></span>
-				Normalized
-			</label>
-		</div>
-		<div class="switch">
-			Current Gender: {{gender}}<br/>
-			<label>
-				Male
-				<input type="checkbox" ng-model="gender_switch">
-				<span class="lever"></span>
-				Female
-			</label>
-		</div>
-	</div>
 
-	<div class="animated slideInDown names-picker">
-		<form action="#">
-			<div ng-repeat = "name in series">
-				<input name="group1" type="radio" id="{{$index}}" ng-model="name==selected_name" ng-value="true" ng-click="selected_name=name"/>
-				<label for="{{$index}}">{{name}}</label>
+
+
+	<div class="row">
+		<div class="col s12 m8">
+			<div class="card white darken-1">
+				<div class="card-content black-text">
+					<span class="card-title black-text">Search for a Name</span>
+
+					<!--div class="animated slideInDown names-picker">
+						<form action="#">
+							<div ng-repeat = "name in series">
+								<input name="group1" type="radio" id="{{$index}}" ng-model="name==selected_name" ng-value="true" ng-click="selected_name=name"/>
+								<label for="{{$index}}">{{name}}</label>
+							</div>
+						</form>
+					</div-->
+
+					<input placeholder="Just start typing!" autofocus type="text" ng-model="selectedName" id="autocomplete_histName"/>
+					
+				</div>
 			</div>
-		</form>
+		</div>
+		<div class="col s12 m4">
+			<div class="card white darken-1">
+				<div class="card-content black-text">
+					<div class="flow-text">
+						<div class="switch" ng-show="false">
+							Current Gender: {{gender}}<br/>
+							<label>
+								Male
+								<input type="checkbox" ng-model="gender_switch">
+								<span class="lever"></span>
+								Female
+							</label>
+						</div>
+						<div class="switch">
+							Normalization<br/>
+							<label>
+								Raw
+								<input type="checkbox" ng-model="normalized">
+								<span class="lever"></span>
+								Normalized
+							</label>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
 	</div>
 
 
-	<!--{{series}}
-	<input type="textarea" value="{{data}}">-->
 
-	<canvas id="line" class="chart chart-line" chart-data="data" chart-options="options"
-		chart-labels="labels" 
-		chart-legend="true" 
-		chart-series="series"
-		chart-colours="colors"
-		chart-click="onClick" >
-	</canvas> 
+
+	<div class="row">
+		<div class="col s12">
+			<div class="card white darken-1">
+				<div class="card-content black-text">
+					<span class="card-title black-text">Frequency By Year</span>
+					<canvas id="line" class="chart chart-line" chart-data="data" chart-options="options"
+						chart-labels="labels" 
+						chart-legend="true" 
+						chart-series="series"
+						chart-click="onClick" >
+					</canvas> 
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
 
 
 </div>
