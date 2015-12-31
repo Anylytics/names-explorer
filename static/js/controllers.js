@@ -1,7 +1,7 @@
 var ngAppControllers = angular.module('ngAppControllers', []);
 
 
-ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http', '$location', function($scope, $routeParams, $http, $location) {
+ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http', '$location', '$route', function($scope, $routeParams, $http, $location, $route) {
 	//Example of a basic controller, includes ability to pull route parameters ($routeParams.name defined in app.js routing configuration)
 
 	$(document).ready(function() {
@@ -106,7 +106,7 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 		//$scope.data = $scope.dataBackup;
 		$http.get('https://dev13895.service-now.com/similar_names.do?input_name='+inputVal)
 			.success(function(data){
-				console.log(data);
+				//console.log(data);
 				$scope.selected_name = inputVal;
 				$scope.similar_names = data;
 				$location.path('/home').search({"name": displayVal});
@@ -115,7 +115,8 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 	};
 
 	$scope.buildData = function() {
-		console.log($scope.similar_names);
+		//console.log($scope.similar_names);
+		$scope.loading = true;
 		$http.get('https://dev13895.service-now.com/name_frame.do?normalized='+$scope.normalized+'&names='+JSON.stringify($scope.similar_names))
 			.success(function(data){
 				console.log(data);
@@ -130,16 +131,53 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 				}
 				$scope.$apply;
 				$('select').material_select();
+				$scope.loading = false;
 			});
+	}
+
+	$scope.updateName = function(name, gender) {
+		$scope.loading=true;
+		$scope.selectedName = name;
+		$scope.getSimilarNames(name+"&gender="+gender, name+"("+gender+")");
 	}
 
 
 	if ($routeParams.name!=""&&$routeParams.name!=null) {
 		var names_data = $routeParams.name.split("(");
-			console.log(names_data[0]+"&gender="+names_data[1].substring(0,1));
-			$scope.selectedName = names_data[0];
-		//$scope.selectedName = names_data[0]; 
-		$scope.getSimilarNames($scope.selectedName+"&gender="+names_data[1].substring(0,1), $routeParams.name);
+		console.log(names_data[0]+"&gender="+names_data[1].substring(0,1));
+		$scope.updateName(names_data[0], names_data[1].substring(0,1) );
+	}
+
+	$scope.goTo = function(dist) {
+		var leftNames = [{"name":"Dorothy","gender":"F"},{"name":"Ruth","gender":"F"},{"name":"Helen","gender":"F"},{"name":"Mildred","gender":"F"},{"name":"Florence","gender":"F"}];
+		var rightNames = [{"name":"Danielle","gender":"F"},{"name":"Travis","gender":"M"},{"name":"Ryan","gender":"M"},{"name":"Amber","gender":"F"}];
+		var centerNames = [{"name":"Susan","gender":"F"},{"name":"Karen","gender":"F"},{"name":"Gary","gender":"M"},{"name":"Donna","gender":"F"}];
+		var biNames = [{"name":"Frank","gender":"M"},{"name":"Virginia","gender":"F"},{"name":"George","gender":"M"},{"name":"Margaret","gender":"F"}];
+
+		function pickRandom(dataArray) {
+			return dataArray[Math.floor(Math.random()*dataArray.length)];
+		}
+
+		switch(dist) {
+			case 'left':
+				var randomName = pickRandom(leftNames);
+				$scope.updateName(randomName.name,randomName.gender);
+				break;
+			case 'right':
+				var randomName = pickRandom(rightNames);
+				$scope.updateName(randomName.name,randomName.gender);
+				break;
+			case 'center':
+				var randomName = pickRandom(centerNames);
+				$scope.updateName(randomName.name,randomName.gender);
+				break;
+			case 'bimodal':
+				var randomName = pickRandom(biNames);
+				$scope.updateName(randomName.name,randomName.gender);
+				break;
+			default:
+				console.log('ERROR');
+		}
 	}
 
 	//$scope.data = $routeParams.name + " from URL parameter";

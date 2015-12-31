@@ -1,6 +1,23 @@
-<div class="progress" ng-show="loading">
+<!--div class="progress" ng-show="loading">
 	<div class="indeterminate"></div>
+</div-->
+
+<div class="circle-loader-wrapper" ng-show="loading">
+	<div class="preloader-wrapper big active">
+		<div class="spinner-layer spinner-blue-only">
+			<div class="circle-clipper left">
+				<div class="circle"></div>
+			</div>
+			<div class="gap-patch">
+				<div class="circle"></div>
+			</div>
+			<div class="circle-clipper right">
+				<div class="circle"></div>
+			</div>
+		</div>
+	</div>
 </div>
+
 <div class="container">
 
 	<h5 class="caps">Historical Name Comparison Tool</h5>
@@ -13,26 +30,36 @@
 
 
 	<div class="row">
-		<div class="col s12 m8">
+		<div class="col s12 m5">
 			<div class="card white darken-1">
 				<div class="card-content black-text">
 					<span class="card-title black-text">Search for a Name</span>
-
-					<!--div class="animated slideInDown names-picker">
-						<form action="#">
-							<div ng-repeat = "name in series">
-								<input name="group1" type="radio" id="{{$index}}" ng-model="name==selected_name" ng-value="true" ng-click="selected_name=name"/>
-								<label for="{{$index}}">{{name}}</label>
-							</div>
-						</form>
-					</div-->
-
 					<input placeholder="Just start typing!" autofocus type="text" ng-model="selectedName" id="autocomplete_histName"/>
-					
 				</div>
 			</div>
 		</div>
 		<div class="col s12 m4">
+			<div class="card white darken-1">
+				<div class="card-content black-text">
+					<span class="card-title black-text">Or Select a Sample Distribution</span>
+					<div class="row">
+						<div class="col s3">
+							<img class="dist-img-picker" src="./static/img/left.png" ng-click="goTo('left');"/>
+						</div>
+						<div class="col s3">
+							<img class="dist-img-picker" src="./static/img/right.png" ng-click="goTo('right');"/>
+						</div>
+						<div class="col s3">
+							<img class="dist-img-picker" src="./static/img/center.png" ng-click="goTo('center');"/>
+						</div>
+						<div class="col s3">
+							<img class="dist-img-picker" src="./static/img/bimodal.png" ng-click="goTo('bimodal');"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col s12 m3">
 			<div class="card white darken-1">
 				<div class="card-content black-text">
 					<div class="flow-text">
