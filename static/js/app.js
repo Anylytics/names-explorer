@@ -4,7 +4,8 @@ ngApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/home', {
         templateUrl: './static/partials/home.html',
-        controller: 'homeController'
+        controller: 'homeController',
+        reloadOnSearch: false
       }).
       when('/histogram', {
         templateUrl: './static/partials/names_histogram.html',
@@ -19,8 +20,9 @@ ngApp.config(['$routeProvider', function($routeProvider) {
         controller: 'indexController'
       }).
       when('/home/:name', {
-        templateUrl: './static/partials/urlParm.html',
-        controller: 'urlParamsController'
+        templateUrl: './static/partials/home.html',
+        controller: 'homeController',
+        reloadOnSearch: false
       }).
       otherwise({
         redirectTo: '/home'

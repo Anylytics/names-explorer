@@ -95,20 +95,21 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 		onSearchStart: function(query){$scope.loading=true},
 		onSearchComplete: function(query){$scope.loading=false},
 		onSelect: function (suggestion) {
-			$scope.getSimilarNames(suggestion.data);
+			$scope.getSimilarNames(suggestion.data, suggestion.value);
 		},
 		showNoSuggestionNotice: true,
 		noSuggestionNotice: 'Sorry, no matching names',
 		groupBy: 'gender'
 	});
 
-	$scope.getSimilarNames = function(inputVal) {
+	$scope.getSimilarNames = function(inputVal, displayVal) {
 		//$scope.data = $scope.dataBackup;
 		$http.get('https://dev13895.service-now.com/similar_names.do?input_name='+inputVal)
 			.success(function(data){
 				console.log(data);
 				$scope.selected_name = inputVal;
 				$scope.similar_names = data;
+				$location.path('/home').search({"name": displayVal});
 				$scope.buildData();
 			});
 	};
@@ -130,6 +131,16 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 				$scope.$apply;
 				$('select').material_select();
 			});
+	}
+
+
+
+	if ($routeParams.name!="") {
+		var names_data = $routeParams.name.split("(");
+			console.log(names_data[0]+"&gender="+names_data[1].substring(0,1));
+			$scope.selectedName = names_data[0];
+		//$scope.selectedName = names_data[0]; 
+		$scope.getSimilarNames($scope.selectedName+"&gender="+names_data[1].substring(0,1), $routeParams.name);
 	}
 
 	//$scope.data = $routeParams.name + " from URL parameter";
