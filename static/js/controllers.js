@@ -287,14 +287,21 @@ ngAppControllers.controller('urlParamsController', ['$scope', '$routeParams', fu
 }]);
 
 ngAppControllers.controller('indexController', ['$scope', '$timeout', function($scope, $timeout) {
-	$scope.data = "Hello world"
+	$scope.data = "Hello world";
+	$scope.app_config = {
+		"compare":true,
+		"histogram":false,
+		"map":false,
+		"contact":true,
+		"about":true
+	}
 	$scope.about = function() {
 		Materialize.toast('Made by Anylytics' ,2000);
 		$timeout(function() {
 			Materialize.toast('Name data provided by US Census' ,2000);
-			$timeout(function() {
+			/*$timeout(function() {
 				Materialize.toast('Libraries used can be found on the <a href="./#/attribution"> attributions </a> page' ,4000);
-			}, 1000);
+			}, 1000);*/
 		}, 1000);
 	};
 }]);
