@@ -134,8 +134,7 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 	}
 
 
-
-	if ($routeParams.name!="") {
+	if ($routeParams.name!=""&&$routeParams.name!=null) {
 		var names_data = $routeParams.name.split("(");
 			console.log(names_data[0]+"&gender="+names_data[1].substring(0,1));
 			$scope.selectedName = names_data[0];
