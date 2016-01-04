@@ -143,6 +143,7 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 
 
 	if ($routeParams.name!=""&&$routeParams.name!=null) {
+		$scope.urlname = $routeParams.name;
 		var names_data = $routeParams.name.split("(");
 		console.log(names_data[0]+"&gender="+names_data[1].substring(0,1));
 		$scope.updateName(names_data[0], names_data[1].substring(0,1) );
@@ -181,6 +182,57 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 	}
 
 	//$scope.data = $routeParams.name + " from URL parameter";
+}]);
+
+ngAppControllers.controller('disruptController', ['$scope', '$routeParams','$http', '$location', '$route', function($scope, $routeParams, $http, $location, $route) {
+	$scope.test = "Hello";
+
+	$scope.data = {
+		"labels":[1915,1916,1917,1918,1919,1920,1921,1922,1923,1924,1925,1926,1927,1928,1929,1930,1931,1932,1933,1934,1935,1936,1937,1938,1939,1940,1941,1942,1943,1944,1945,1946,1947,1948,1949,1950,1951,1952,1953,1954,1955,1956,1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014],
+		"series":[],
+		"data":[]
+	};
+
+	$scope.name_array = [];
+	$scope.options = {
+		scaleShowGridLines : false,
+		pointDot : false
+	};
+
+	console.log($scope.data.labels.length);
+
+	$http.get('./static/js/data/derivative_data.json')
+		.success(function(data){
+
+			for (i=0; i<data.length; i++) {
+				//console.log(data[i].data);
+				//$scope.data.series.push(data[i].name);
+				//var data_array = JSON.parse(data[i].data).slice(-(100));
+				//$scope.data.data.push(data_array);
+				$scope.JSONdata = data;
+				var tmpObj = {};
+				tmpObj.name = data[i].name;
+				tmpObj.max = data[i].max;
+				tmpObj.id = i;
+				$scope.name_array.push(tmpObj);
+			}
+			console.log($scope.name_array);
+			//console.log($scope.data);
+		});
+
+	$scope.updateName = function(nameObj) {
+		$scope.loading = true;
+		$scope.data.series=[];
+		$scope.data.data = [];
+		//$scope.$apply;
+		$scope.data.series.push(nameObj.name);
+		var thisData = JSON.parse($scope.JSONdata[nameObj.id].data).slice(-(100));
+		console.log(thisData);
+		$scope.data.data.push(thisData);
+		console.log($scope.data);
+		$scope.$apply;
+		$scope.loading = false;
+	}
 }]);
 
 ngAppControllers.controller('histController', ['$scope','$http', function($scope, $http) {

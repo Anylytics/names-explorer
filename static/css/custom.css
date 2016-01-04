@@ -131,3 +131,12 @@ span.emphasis {
     top: 0;
     left: 0;
 }
+
+.name-picker-chip {
+	margin:5px;
+	cursor:pointer;
+}
+
+.name-picker-chip:hover {
+	background-color:gainsboro;
+}

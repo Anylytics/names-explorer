@@ -11,6 +11,10 @@ ngApp.config(['$routeProvider', function($routeProvider) {
         templateUrl: './static/partials/names_histogram.html',
         controller: 'histController'
       }).
+      when('/disrupt', {
+        templateUrl: './static/partials/disrupt.html',
+        controller: 'disruptController'
+      }).
       when('/map', {
         templateUrl: './static/partials/map.html',
         controller: 'mapController'
