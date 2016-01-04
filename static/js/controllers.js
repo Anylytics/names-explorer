@@ -110,6 +110,7 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 				$scope.selected_name = inputVal;
 				$scope.similar_names = data;
 				$location.path('/home').search({"name": displayVal});
+				$scope.urlname = displayVal;
 				$scope.buildData();
 			});
 	};
@@ -125,7 +126,7 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 				for (var i=0; i<data.length; i++) {
 					var data_array = JSON.parse(data[i].data);
 					data_array = data_array.slice(-(100));
-					console.log(data_array.length);
+					//console.log(data_array.length);
 					$scope.series.push(data[i].name);
 					$scope.data.push(data_array);
 				}

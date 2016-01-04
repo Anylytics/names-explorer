@@ -96,6 +96,9 @@
 			<div class="card white darken-1">
 				<div class="card-content black-text">
 					<span class="card-title black-text">Frequency By Year</span>
+					<button onclick="$('#explain').openModal();" data-target="explain" class="btn modal-trigger green lighten-1" ng-show="urlname">
+						What am I seeing?
+					</button>
 					<span class="right"><!--a class="btn-floating waves-effect waves-light red"><img class="share" src="./static/img/share.png"/></a-->
 						<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//anylytics.io/names/%23/home?name={{urlname}}" class="waves-effect waves-light btn blue darken-4">Share</a>
 						<a href="https://twitter.com/home?status=http%3A//anylytics.io/names/%23/home?name={{urlname}}" class="waves-effect waves-light btn blue lighten-3">Tweet</a>
@@ -113,6 +116,24 @@
 
 
 
+	<!-- Explain Modal -->
+	<div id="explain" class="modal">
+		<div class="modal-content">
+			<h4>Name Clusters for "{{urlname}}"</h4>
+			<p>
+				Scanning the baby names database shows that the names listed below follow a very similar wave of popularity to one another over the past century. 
+				<ul>
+					<li ng-repeat="name in series">{{name}}</li>
+				</ul>
+				<hr/>
+				Names in the database tend to fall in to distinct 'clusters', four of which we have identified and provided in the 'Select a Sample Distribution' panel. How many other clusters can you find?
+			</p>
+		</div>
+		<div class="modal-footer">
+			<a href="../blog/fifteen-minutes-of-name" class=" modal-action modal-close waves-effect waves-green">Tell me more!</a>
+			<a href="" class=" modal-action modal-close waves-effect waves-green btn-flat">Got it!</a>
+		</div>
+	</div>
 
 
 </div>
