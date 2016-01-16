@@ -140,3 +140,14 @@ span.emphasis {
 .name-picker-chip:hover {
 	background-color:gainsboro;
 }
+
+div#x-label { text-align: center; }
+
+div#y-label {
+    position: absolute;
+    transform: rotate(270deg);
+    left: -55px;
+    bottom: 55%;
+}
+
+.chart-container { margin-left: 15px;}

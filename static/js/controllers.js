@@ -12,47 +12,63 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 	$scope.gender_switch = false;
 	$scope.gender = "M";
 	$scope.config = {
-		"inactive_stroke_opacity":0.2,
+		"inactive_stroke_opacity":0.5,
 		"inactive_fill_opacity":0,
 		"active_stroke_opacity":1,
-		"active_fill_opacity":0.2,
+		"active_fill_opacity":0.05,
 		"point_opacity":1,
 		"color":153
 	};
 
 	//$scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
 	$scope.selected_name = "";
-	$scope.labels=[1915,1916,1917,1918,1919,1920,1921,1922,1923,1924,1925,1926,1927,1928,1929,1930,1931,1932,1933,1934,1935,1936,1937,1938,1939,1940,1941,1942,1943,1944,1945,1946,1947,1948,1949,1950,1951,1952,1953,1954,1955,1956,1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014];
+	if(window.outerHeight){
+	  var w = window.outerWidth;
+	  var h = window.outerHeight;
+	}
+	else {
+	  var w = document.body.clientWidth;
+	  var h = document.body.clientHeight; 
+	}
+	console.log(w + ' ' + h);
+	if (w>1000) {
+		$scope.labels=[1915,1916,1917,1918,1919,1920,1921,1922,1923,1924,1925,1926,1927,1928,1929,1930,1931,1932,1933,1934,1935,1936,1937,1938,1939,1940,1941,1942,1943,1944,1945,1946,1947,1948,1949,1950,1951,1952,1953,1954,1955,1956,1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014];
+	} else {
+		$scope.labels=[1915,' ',' ',' ',' ',1920,' ',' ',' ',' ',1925,' ',' ',' ',' ',1930,' ',' ',' ',' ',1935,' ',' ',' ',' ',1940,' ',' ',' ',' ',1945,' ',' ',' ',' ',1950,' ',' ',' ',' ',1955,' ',' ',' ',' ',1960,' ',' ',' ',' ',1965,' ',' ',' ',' ',1970,' ',' ',' ',' ',1975,' ',' ',' ',' ',1980,' ',' ',' ',' ',1985,' ',' ',' ',' ',1990,' ',' ',' ',' ',1995,' ',' ',' ',' ',2000,' ',' ',' ',' ',2005,' ',' ',' ',' ',2010,' ',' ',' ',2014];
+	
+	}
 	$scope.seriesBackup = ['James', 'James.1','David','Richard','Thomas'];
 	$scope.options = {
-		scaleShowGridLines : false,
+		scaleShowGridLines : true,
+    	scaleGridLineColor : "rgba(0,0,0,.05)",
+    	scaleGridLineWidth : 0.5,
 		pointDot : false
 	};
 	$scope.colors = [
 		{
-			fillColor: "rgba("+$scope.config.color+",188,206,"+$scope.config.active_fill_opacity+")",
-			strokeColor: "rgba(153,188,206,"+$scope.config.active_stroke_opacity+")",
-			pointColor: "rgba(153,188,206,"+$scope.config.point_opacity+")"
-		},
-		{
-			fillColor: "rgba(247,70,74,"+$scope.config.inactive_fill_opacity+")",
-			strokeColor: "rgba(247,70,74,"+$scope.config.inactive_stroke_opacity+")",
+			fillColor: "rgba(255, 178, 180,"+$scope.config.active_fill_opacity+")",
+			strokeColor: "rgba(247,70,74,"+$scope.config.active_stroke_opacity+")",
 			pointColor: "rgba(247,70,74,"+$scope.config.point_opacity+")"
 		},
 		{
-			fillColor: "rgba(70,191,189,"+$scope.config.inactive_fill_opacity+")",
-			strokeColor: "rgba(70,191,189,"+$scope.config.inactive_stroke_opacity+")",
-			pointColor: "rgba(70,191,189,"+$scope.config.point_opacity+")"
+			fillColor: "rgba(151,187,205,"+$scope.config.inactive_fill_opacity+")",
+			strokeColor: "rgba(151,187,205,"+$scope.config.inactive_stroke_opacity+")",
+			pointColor: "rgba(151,187,205,"+$scope.config.point_opacity+")"
 		},
 		{
-			fillColor: "rgba(153,188,206,"+$scope.config.inactive_fill_opacity+")",
-			strokeColor: "rgba(153,188,206,"+$scope.config.inactive_stroke_opacity+")",
-			pointColor: "rgba(153,188,206,"+$scope.config.point_opacity+")"
+			fillColor: "rgba(70,191,136,"+$scope.config.inactive_fill_opacity+")",
+			strokeColor: "rgba(70,191,136,"+$scope.config.inactive_stroke_opacity+")",
+			pointColor: "rgba(70,191,136,"+$scope.config.point_opacity+")"
 		},
 		{
 			fillColor: "rgba(253,180,92,"+$scope.config.inactive_fill_opacity+")",
 			strokeColor: "rgba(253,180,92,"+$scope.config.inactive_stroke_opacity+")",
 			pointColor: "rgba(253,180,92,"+$scope.config.point_opacity+")"
+		},
+		{
+			fillColor: "rgba(119,74,172,"+$scope.config.inactive_fill_opacity+")",
+			strokeColor: "rgba(119,74,172,"+$scope.config.inactive_stroke_opacity+")",
+			pointColor: "rgba(119,74,172,"+$scope.config.point_opacity+")"
 		}
 	];
 	$scope.dataBackup = [
