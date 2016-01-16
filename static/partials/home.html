@@ -107,7 +107,7 @@
 						<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//anylytics.io/names/%23/home?name={{urlname}}" class="waves-effect waves-light btn blue darken-4">Share</a>
 						<a href="https://twitter.com/home?status=http%3A//anylytics.io/names/%23/home?name={{urlname}}" class="waves-effect waves-light btn blue lighten-3">Tweet</a>
 					</span>
-					<div id="plot-container">
+					<div id="plot-container" ng-show="urlname">
 						<canvas id="line" class="chart chart-line" chart-data="data" chart-options="options" chart-colours ="colors"
 							chart-labels="labels" 
 							chart-legend="true" 
