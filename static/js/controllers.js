@@ -137,6 +137,9 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 		$http.get('https://dev13895.service-now.com/name_frame.do?normalized='+$scope.normalized+'&names='+JSON.stringify($scope.similar_names))
 			.success(function(data){
 				console.log(data);
+				delete $scope.data;
+				delete $scope.series;
+				$scope.$apply;
 				$scope.data = [];
 				$scope.series = [];
 				for (var i=0; i<data.length; i++) {

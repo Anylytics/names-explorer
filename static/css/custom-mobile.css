@@ -1,0 +1,62 @@
+/*!
+ * Author: Nabil Enayet October 2015
+ */
+
+.card-content > span{
+	font-size: 35px !important;
+}
+
+.card-content > span.social {
+	font-size:26px;
+}
+
+.card-content > input {
+	font-size:50px!important; 
+	padding:40px;
+	text-align:center;
+	width:90%;
+}
+
+.switch {
+	display:none!important;
+}
+
+
+
+.mobile-switch {
+	display:block;
+	font-size: 45px !important;
+}
+
+.modal-trigger {
+	font-size:25px;
+}
+
+.modal-footer > a {
+	font-size:25px;
+}
+
+/* AutoComplete */
+.autocomplete-suggestions { font-size:40px; border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { font-size:40px; padding: 20px 30px; white-space: nowrap; overflow: hidden; margin: 15px 15px; background-color:whitesmoke;}
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF;}
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+
+
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: relative; 
+    left: 0; 
+    visibility:visible; 
+}
+
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(4); /* IE */
+  -moz-transform: scale(4); /* FF */
+  -webkit-transform: scale(4); /* Safari and Chrome */
+  -o-transform: scale(4); /* Opera */
+  margin:10px;
+}

@@ -151,3 +151,16 @@ div#y-label {
 }
 
 .chart-container { margin-left: 15px;}
+
+#autocomplete_histName {position:relaive;}
+
+
+/* Mobile Optimizations */
+
+@media only screen and (max-device-width: 650px) {
+
+}
+
+.mobile-switch {
+	display:none;
+}
