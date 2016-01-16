@@ -100,14 +100,14 @@
 			<div class="card white darken-1">
 				<div class="card-content black-text">
 					<span class="card-title black-text">Frequency By Year</span>
-					<button onclick="$('#explain').openModal();" data-target="explain" class="btn modal-trigger green lighten-1" ng-show="urlname">
+					<button onclick="$('#explain').openModal();" data-target="explain" class="btn modal-trigger green lighten-1" ng-show="urlname&&!loading">
 						What am I seeing?
 					</button>
 					<span class="right"><!--a class="btn-floating waves-effect waves-light red"><img class="share" src="./static/img/share.png"/></a-->
 						<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//anylytics.io/names/%23/home?name={{urlname}}" class="waves-effect waves-light btn blue darken-4">Share</a>
 						<a href="https://twitter.com/home?status=http%3A//anylytics.io/names/%23/home?name={{urlname}}" class="waves-effect waves-light btn blue lighten-3">Tweet</a>
 					</span>
-					<div id="plot-container" ng-show="urlname">
+					<div id="plot-container" ng-show="urlname&&!loading">
 						<canvas id="line" class="chart chart-line" chart-data="data" chart-options="options" chart-colours ="colors"
 							chart-labels="labels" 
 							chart-legend="true" 
