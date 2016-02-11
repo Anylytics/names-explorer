@@ -19,6 +19,10 @@ ngApp.config(['$routeProvider', function($routeProvider) {
         templateUrl: './static/partials/map.html',
         controller: 'mapController'
       }).
+      when('/state_names', {
+        templateUrl: './static/partials/state_names.html',
+        controller: 'stateNamesController'
+      }).
       when('/attribution', {
         templateUrl: './static/partials/attribution.html',
         controller: 'indexController'

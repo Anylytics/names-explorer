@@ -7,7 +7,7 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 	$(document).ready(function() {
 		$('select').material_select();
 	});
-	
+
 	$scope.normalized = false;
 	$scope.gender_switch = false;
 	$scope.gender = "M";
@@ -28,14 +28,14 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 	}
 	else {
 	  var w = document.body.clientWidth;
-	  var h = document.body.clientHeight; 
+	  var h = document.body.clientHeight;
 	}
 	console.log(w + ' ' + h);
 	if (w>1000) {
 		$scope.labels=[1915,1916,1917,1918,1919,1920,1921,1922,1923,1924,1925,1926,1927,1928,1929,1930,1931,1932,1933,1934,1935,1936,1937,1938,1939,1940,1941,1942,1943,1944,1945,1946,1947,1948,1949,1950,1951,1952,1953,1954,1955,1956,1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014];
 	} else {
 		$scope.labels=[1915,' ',' ',' ',' ',1920,' ',' ',' ',' ',1925,' ',' ',' ',' ',1930,' ',' ',' ',' ',1935,' ',' ',' ',' ',1940,' ',' ',' ',' ',1945,' ',' ',' ',' ',1950,' ',' ',' ',' ',1955,' ',' ',' ',' ',1960,' ',' ',' ',' ',1965,' ',' ',' ',' ',1970,' ',' ',' ',' ',1975,' ',' ',' ',' ',1980,' ',' ',' ',' ',1985,' ',' ',' ',' ',1990,' ',' ',' ',' ',1995,' ',' ',' ',' ',2000,' ',' ',' ',' ',2005,' ',' ',' ',' ',2010,' ',' ',' ',2014];
-	
+
 	}
 	$scope.seriesBackup = ['James', 'James.1','David','Richard','Thomas'];
 	$scope.options = {
@@ -354,7 +354,7 @@ ngAppControllers.controller('histController', ['$scope','$http', function($scope
 				$scope.data[0].push(data.names[n].frequency);
 				n+=1;
 			} else {
-				$scope.data[0].push(0);			
+				$scope.data[0].push(0);
 			}
 			tmpYearMin++;
 		}
@@ -403,7 +403,8 @@ ngAppControllers.controller('indexController', ['$scope', '$timeout', function($
 		"histogram":false,
 		"map":false,
 		"contact":true,
-		"about":true
+		"about":true,
+		"statemap":true
 	}
 	$scope.about = function() {
 		Materialize.toast('Made by Anylytics' ,2000);
@@ -437,7 +438,7 @@ ngAppControllers.controller('mapController', ['$scope', '$http','leafletData', f
 			$scope.geojson_states.data = $scope.geojsonData;
 			$scope.geojson_states.resetStyleOnMouseout=true;
 			$scope.geojson_states.style = style;
-			$scope.loading=false;	
+			$scope.loading=false;
 
         leafletData.getMap().then(function(map) {
             console.log(map);
@@ -446,11 +447,11 @@ ngAppControllers.controller('mapController', ['$scope', '$http','leafletData', f
 	};
 
 	$scope.getFrequencyByYear = function(nameVal) {
-		$scope.loading=true;	
+		$scope.loading=true;
 		//Look into doing name wars, male vs female, http://underscorejs.org/
 		$http.get('./getFrequencyOfNameByState/'+$scope.currentName+'/M/2010').success(function(data) {
 			//console.log(data);
-			$scope.loading=false;	
+			$scope.loading=false;
 			$scope.buildDistribution(data.names);
 			$scope.geojson_states.data = $scope.geojsonData;
 			$scope.geojson_states.style = style();
@@ -540,6 +541,165 @@ ngAppControllers.controller('mapController', ['$scope', '$http','leafletData', f
 				return gradient[Math.floor($scope.namesDistribution[i].frequencyPercentile*20)-1]
 			}
 		}
+	}
+
+}]);
+
+ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$http', function($scope, $timeout, $http) {
+	$scope.loading = true;
+
+	$scope.current_year = 1910;
+
+	$scope.playing = false;
+
+	var map = new L.map('map').setView([39.0997, -97.5783], 4);
+
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+	    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	    maxZoom: 18,
+	    id: 'enayetn.km2ncj2p',
+	    accessToken: 'pk.eyJ1IjoiZW5heWV0biIsImEiOiJjaWtobWp2bTcwMXozdjBrbWtzajI1bzYwIn0.7-FHnp-aXc9-R__Owvco-w'
+	}).addTo(map);
+
+	$scope.states_geo = {};
+	var static_style = {
+	    "color": "red",
+	    "weight": 0,
+	    "fillOpacity":1
+	};
+
+	$scope.$on(
+		"$destroy",
+		function( event ) {
+			$scope.stopAnimation();
+		}
+	);
+
+
+	$http.get('https://dev13895.service-now.com/state_names.do?name=James')
+		.success(function(data){
+			$scope.name_data = data;
+			$scope.loadGeo(data);
+		});
+
+	$scope.getName = function(name) {
+			$http.get('https://dev13895.service-now.com/state_names.do?name='+name)
+			.success(function(data){
+				$scope.name_data = data;
+				$scope.updateGeo(data);
+			});
+	}
+
+
+	$('#autocomplete_stateName').autocomplete({
+		serviceUrl: 'https://dev13895.service-now.com/state_names_suggest.do',
+		deferRequestBy: 300,
+		onSearchStart: function(query){$scope.loading=true},
+		onSearchComplete: function(query){$scope.loading=false},
+		onSelect: function (suggestion) {
+			$scope.getName(suggestion.data);
+		},
+		showNoSuggestionNotice: true,
+		noSuggestionNotice: 'Sorry, no matching names',
+		groupBy: 'gender'
+	});
+
+	$scope.loadGeo = function(name_data) {
+		//console.log(name_data);
+		$http.get('./static/js/geo/us_states.json').success(function(data) {
+			$scope.states_geo = data;
+			map.setView([39.0997, -97.5783], 4);
+			$scope.state_geo_layer = L.geoJson($scope.states_geo, {
+				style: $scope.myStyle,
+				onEachFeature: function (feature, layer) {
+				}
+			});
+
+			map.addLayer($scope.state_geo_layer);
+			$scope.loading = false;
+		});
+	};
+
+	$scope.updateGeo = function() {
+		$scope.loading = true;
+		map.setView([39.0997, -97.5783], 4);
+		map.removeLayer($scope.state_geo_layer);
+		$scope.state_geo_layer = L.geoJson($scope.states_geo, {
+			style: $scope.myStyle,
+			onEachFeature: function (feature, layer) {
+			}
+		});
+
+		map.addLayer($scope.state_geo_layer);
+		$scope.loading = false;
+
+	}
+
+
+
+	$scope.current_year_slider = document.getElementById('histByYear_slider');
+	noUiSlider.create($scope.current_year_slider, {
+		start: [$scope.current_year],
+		step: 1,
+		range: {
+			'min': 1910,
+			'max': 2014
+		},
+		format: wNumb({
+			decimals: 0
+		})
+	});
+
+	$scope.current_year_slider.noUiSlider.on('update', function( values, handle ) {
+
+			$scope.current_year = values[handle];
+
+		if(!$scope.$$phase) {
+			$scope.updateGeo();
+			$scope.$apply();
+		}
+	});
+
+
+  $scope.myStyle = function(feature) {
+  	//console.log(feature.properties.STATE);
+		var opacity_val = 0;
+		for (i=0; i<$scope.name_data.length; i++) {
+			if ($scope.name_data[i].state==feature.properties.STATE) {
+				opacity_val = JSON.parse($scope.name_data[i].data)[$scope.current_year-1910];
+			}
+		}
+	  //console.log(opacity_val);
+    return {
+		    "color": "#ff7800",
+		    "weight": 0,
+		    "fillOpacity": Math.sqrt(opacity_val)
+    }
+  };
+
+
+	$scope.animateThroughYears = function() {
+		$scope.playing = true;
+		if ($scope.current_year>2013) {
+			return;
+		}
+		$scope.current_year++;
+		$scope.current_year_slider.noUiSlider.set( $scope.current_year );
+		$scope.updateGeo();
+		$scope.animate_timer = $timeout(function() {
+        $scope.animateThroughYears();
+    }, 100);
+	};
+
+	$scope.stopAnimation = function() {
+		$scope.playing = false;
+		$timeout.cancel( $scope.animate_timer );
+	};
+
+	$scope.resetAnimation = function() {
+		$scope.current_year = 1910;
+		$scope.current_year_slider.noUiSlider.set( $scope.current_year );
+		$scope.updateGeo();
 	}
 
 }]);

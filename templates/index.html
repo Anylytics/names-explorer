@@ -27,6 +27,8 @@
 
 		<!-- Load Leaflet -->
 		<script src="./static/js/lib/leaflet.js"></script>
+		<script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+		<link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
 		<script src="./static/js/lib/angular-leaflet-directive.min.js"></script>
 		<link 	href="./static/css/leaflet.css" rel="stylesheet">
 
@@ -58,6 +60,7 @@
 					<li ng-show="app_config.compare"><a href="./#/home">Names Comparer</a></li>
 					<li ng-show="app_config.histogram"><a href="./#/histogram">Names Histogram</a></li>
 					<li ng-show="app_config.map"><a href="./#/map">Map</a></li>
+					<li ng-show="app_config.statemap"><a href="./#/state_names">Geo Explorer</a></li>
 					<li ng-show="app_config.contact"><a href="mailto:hello@anlytics.io">Contact</a></li>
 					<li ng-show="app_config.about"><a class="green darken-1" ng-click="about()">About</a></li>
 				</ul>
