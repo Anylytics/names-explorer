@@ -589,7 +589,8 @@ ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$htt
 			$http.get('https://dev13895.service-now.com/state_names.do?name='+name)
 			.success(function(data){
 				$scope.name_data = data;
-				$scope.updateGeo(data);
+				$scope.resetAnimation();
+				//$scope.updateGeo(data);
 			});
 	}
 
@@ -625,7 +626,7 @@ ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$htt
 
 	$scope.updateGeo = function() {
 		$scope.loading = true;
-		map.setView([39.0997, -97.5783], 4);
+		//map.setView([39.0997, -97.5783], 4);
 		map.removeLayer($scope.state_geo_layer);
 		$scope.state_geo_layer = L.geoJson($scope.states_geo, {
 			style: $scope.myStyle,
@@ -690,6 +691,7 @@ ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$htt
 	$scope.animateThroughYears = function() {
 		$scope.playing = true;
 		if ($scope.current_year>2013) {
+			$scope.playing = false;
 			return;
 		}
 		$scope.current_year++;
