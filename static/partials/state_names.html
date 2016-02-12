@@ -14,6 +14,19 @@
 .noUi-handle {transform:translateY(5px)!important;}
 .card {overflow:visible;}
 .disabled {opacity:0.4; pointer-events:none;}
+.readonly {opacity:0.75; pointer-events:none;}
+.btn {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* IE/Edge */
+  user-select: none;           /* non-prefixed version, currently
+                                  not supported by any browser */
+}
+.year {
+	font-size:1.6em;
+}
 </style>
 
 <div>
@@ -25,10 +38,14 @@
 		<div class="card grey darken-2 debug-control animated zoomIn" ng-class="{'disabled':name_data.length==0}">
 			<div class="card-content white-text">
 				<div id="histByYear_slider"></div><br/>
-				<h5>Current Year: <span>{{current_year}}</span></h5>
+				<h6>Current Year: <span class="year">{{current_year}}</span></h6>
 				<a class="btn" ng-class="{'disabled':playing==true}" ng-click="animateThroughYears()"> <i class="material-icons">play_arrow</i> </a>
-				<a class="btn" ng-class="{'disabled':playing==false}" ng-click="stopAnimation()"> <i class="material-icons">stop</i> </a>
+				<a class="btn" ng-class="{'disabled':playing==false}" ng-click="stopAnimation()"> <i class="material-icons">pause</i> </a>
 				<a class="btn" ng-class="{'disabled':playing==true}" ng-click="resetAnimation()"> <i class="material-icons">replay</i> </a>
+				<h6>Speed Control</h6>
+				<a class="btn" ng-click="slowDown()"> <i class="material-icons">fast_rewind</i> </a>
+				<a class="btn teal lighten-3 readonly" > {{fps_val}}x </a>
+				<a class="btn" ng-click="speedUp()"> <i class="material-icons">fast_forward</i> </a>
 			</div>
 		</div>
 		<div class="card white name-input animated zoomIn">

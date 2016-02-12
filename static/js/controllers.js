@@ -552,6 +552,9 @@ ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$htt
 
 	$scope.playing = false;
 
+	$scope.play_speed = 50;
+	$scope.fps_val = Math.floor(1000*1/$scope.play_speed);
+
 	var map = new L.map('map').setView([39.0997, -97.5783], 4);
 
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -666,16 +669,22 @@ ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$htt
 		var opacity_val = 0;
 		for (i=0; i<$scope.name_data.length; i++) {
 			if ($scope.name_data[i].state==feature.properties.STATE) {
+				//console.log(JSON.parse($scope.name_data[i].data)[$scope.current_year-1910])
 				opacity_val = JSON.parse($scope.name_data[i].data)[$scope.current_year-1910];
 			}
 		}
 	  //console.log(opacity_val);
     return {
 		    "color": "#ff7800",
-		    "weight": 0,
-		    "fillOpacity": Math.sqrt(opacity_val)
+		    "weight": 0.4,
+		    "fillOpacity": $scope.transformOpacity(opacity_val)
     }
   };
+
+	$scope.transformOpacity = function(opacity) {
+		return Math.sqrt(opacity);
+		//return opacity;
+	}
 
 
 	$scope.animateThroughYears = function() {
@@ -688,7 +697,7 @@ ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$htt
 		$scope.updateGeo();
 		$scope.animate_timer = $timeout(function() {
         $scope.animateThroughYears();
-    }, 100);
+    }, $scope.play_speed);
 	};
 
 	$scope.stopAnimation = function() {
@@ -700,6 +709,29 @@ ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$htt
 		$scope.current_year = 1910;
 		$scope.current_year_slider.noUiSlider.set( $scope.current_year );
 		$scope.updateGeo();
-	}
+	};
+
+	$scope.slowDown = function() {
+		if ($scope.play_speed>1000) {
+			return;
+		}
+		if ($scope.play_speed > 100) {
+			$scope.play_speed+=150;
+		} else {
+			$scope.play_speed+=10;
+		}
+		$scope.fps_val = Math.floor(1000*1/$scope.play_speed);
+	};
+	$scope.speedUp = function() {
+		if ($scope.play_speed<20) {
+			return;
+		}
+		if ($scope.play_speed > 150) {
+			$scope.play_speed-=100;
+		} else {
+			$scope.play_speed-=10;
+		}
+		$scope.fps_val = Math.floor(1000*1/$scope.play_speed);
+	};
 
 }]);
