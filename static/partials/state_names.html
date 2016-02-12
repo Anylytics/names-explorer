@@ -42,6 +42,11 @@
 				<a class="btn" ng-class="{'disabled':playing==true}" ng-click="animateThroughYears()"> <i class="material-icons">play_arrow</i> </a>
 				<a class="btn" ng-class="{'disabled':playing==false}" ng-click="stopAnimation()"> <i class="material-icons">pause</i> </a>
 				<a class="btn" ng-class="{'disabled':playing==true}" ng-click="resetAnimation()"> <i class="material-icons">replay</i> </a>
+				<div class="frame-ctrl">
+					<h6>Frame Control</h6>
+					<a class="btn" ng-class="{'disabled':playing==true}" ng-click="previousFrame()"> <i class="material-icons">skip_previous</i> </a>
+					<a class="btn" ng-class="{'disabled':playing==true}" ng-click="nextFrame()"> <i class="material-icons">skip_next</i> </a>
+				</div>
 				<h6>Speed Control</h6>
 				<a class="btn" ng-click="slowDown()"> <i class="material-icons">fast_rewind</i> </a>
 				<a class="btn teal lighten-3 readonly" > <div>{{fps_val}}x</div> </a>

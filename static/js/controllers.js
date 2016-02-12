@@ -740,4 +740,22 @@ ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$htt
 		$scope.fps_val = Math.floor(1000*1/$scope.play_speed);
 	};
 
+	$scope.nextFrame = function() {
+		if ($scope.current_year>2013) {
+			return;
+		}
+		$scope.current_year++;
+		$scope.current_year_slider.noUiSlider.set( $scope.current_year );
+		$scope.updateGeo();
+	};
+
+	$scope.previousFrame = function() {
+		if ($scope.current_year<1911) {
+			return;
+		}
+		$scope.current_year--;
+		$scope.current_year_slider.noUiSlider.set( $scope.current_year );
+		$scope.updateGeo();
+	};
+
 }]);
