@@ -35,7 +35,7 @@
 	</div>
 	<div id="map"></div>
 	<div class="interactionLayer">
-		<div class="card grey darken-2 debug-control animated zoomIn" ng-class="{'disabled':name_data.length==0}">
+		<div class="card grey darken-2 debug-control {{play_ctrl_class}}" ng-class="{'disabled':name_data.length==0}">
 			<div class="card-content white-text">
 				<div id="histByYear_slider"></div><br/>
 				<h6>Current Year: <span class="year">{{current_year}}</span></h6>

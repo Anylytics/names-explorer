@@ -552,6 +552,8 @@ ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$htt
 
 	$scope.playing = false;
 
+	$scope.play_ctrl_class = "animated zoomIn";
+
 	$scope.play_speed = 50;
 	$scope.fps_val = Math.floor(1000*1/$scope.play_speed);
 
@@ -589,7 +591,9 @@ ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$htt
 			$http.get('https://dev13895.service-now.com/state_names.do?name='+name)
 			.success(function(data){
 				$scope.name_data = data;
+				$scope.play_ctrl_class = "";
 				$scope.resetAnimation();
+				$scope.play_ctrl_class = "animated rubberBand";
 				//$scope.updateGeo(data);
 			});
 	}
