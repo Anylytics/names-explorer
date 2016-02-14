@@ -9,6 +9,21 @@
 	right:20px;
 	position:fixed;
 }
+
+.hist-view {
+	bottom:20px;
+	left:20px;
+	position:fixed;
+}
+
+.hover-opaque {
+	opacity:0.8;
+}
+
+.hover-opaque:hover {
+	opacity:1;
+}
+
 #map {height: calc( 100vh - 56px );}
 
 .noUi-handle {transform:translateY(5px)!important;}
@@ -27,6 +42,15 @@
 .year {
 	font-size:1.6em;
 }
+
+#year_line_tracker {
+	position: absolute;
+	height: calc(100% - 98px);
+	width: 3px;
+	background-color: teal;
+	opacity: .5;
+	transition: all {{play_speed/1000}}s;
+}
 </style>
 
 <div>
@@ -35,7 +59,7 @@
 	</div>
 	<div id="map"></div>
 	<div class="interactionLayer">
-		<div class="card grey darken-2 debug-control {{play_ctrl_class}}" ng-class="{'disabled':name_data.length==0}">
+		<div class="card grey darken-2 debug-control hover-opaque {{play_ctrl_class}}" ng-class="{'disabled':name_data.length==0}">
 			<div class="card-content white-text">
 				<div id="histByYear_slider"></div><br/>
 				<h6>Current Year: <span class="year">{{current_year}}</span></h6>
@@ -56,6 +80,18 @@
 		<div class="card white name-input animated zoomIn">
 			<div class="card-content grey-text text-darken-3">
 				<input placeholder="Search for a Name" autofocus type="text" ng-model="currentName" id="autocomplete_stateName"/>
+			</div>
+		</div>
+		<div class="card white hover-opaque hist-view animated {{play_ctrl_class}}" ng-class="{'disabled':name_data.length==0}">
+			<div id="plot-container" class="card-content grey-text text-darken-3">
+				<div id="year_line_tracker" style="left: {{line_tracker_val}}px;" ng-show="!(name_data.length==0)"></div>
+				<canvas id="line" class="chart chart-line"
+					chart-data="hist_data"
+					chart-series="hist_series"
+					chart-options="hist_options"
+					chart-labels="hist_labels"
+					>
+				</canvas>
 			</div>
 		</div>
 	</div>

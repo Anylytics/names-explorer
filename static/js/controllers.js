@@ -30,7 +30,7 @@ ngAppControllers.controller('homeController', ['$scope', '$routeParams','$http',
 	  var w = document.body.clientWidth;
 	  var h = document.body.clientHeight;
 	}
-	console.log(w + ' ' + h);
+	//console.log(w + ' ' + h);
 	if (w>1000) {
 		$scope.labels=[1915,1916,1917,1918,1919,1920,1921,1922,1923,1924,1925,1926,1927,1928,1929,1930,1931,1932,1933,1934,1935,1936,1937,1938,1939,1940,1941,1942,1943,1944,1945,1946,1947,1948,1949,1950,1951,1952,1953,1954,1955,1956,1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014];
 	} else {
@@ -556,6 +556,42 @@ ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$htt
 
 	$scope.play_speed = 50;
 	$scope.fps_val = Math.floor(1000*1/$scope.play_speed);
+	//43 - 325
+	$scope.line_tracker_val = 43;
+	/*$scope.$watch('current_year', function() {
+			// do something here
+			if ($scope.current_year<1916) {
+				$scope.line_tracker_val = 43;
+				return;
+			}
+			$scope.line_tracker_val = 43 + ((($scope.current_year-1915)/(100))*286);
+			console.log($scope.line_tracker_val);
+
+			if(!$scope.$$phase) {
+				$scope.$apply();
+			}
+	}, true);*/
+	//$scope.line_tracker_val = 43+(()$scope.current_year-1910)/(2014-1910))/(325-43);
+
+	$scope.updateHistLine = function() {
+		if ($scope.current_year<1916) {
+			$scope.line_tracker_val = 43;
+			return;
+		}
+		$scope.line_tracker_val = 43 + ((($scope.current_year-1915)/(100))*286);
+		console.log($scope.line_tracker_val);
+	}
+	$scope.hist_options = {
+		scaleShowGridLines : true,
+		scaleGridLineColor : "rgba(0,0,0,0)",
+		scaleGridLineWidth : 0.5,
+		pointDot : false,
+		scaleShowLabels: false,
+		showTooltips: false
+	};
+	$scope.hist_series = ['DATA'];
+	$scope.hist_labels=[' ',' ',' ',' ',' ',1920,' ',' ',' ',' ',' ',' ',' ',' ',' ',1930,' ',' ',' ',' ',' ',' ',' ',' ',' ',1940,' ',' ',' ',' ',' ',' ',' ',' ',' ',1950,' ',' ',' ',' ',' ',' ',' ',' ',' ',1960,' ',' ',' ',' ',' ',' ',' ',' ',' ',1970,' ',' ',' ',' ',' ',' ',' ',' ',' ',1980,' ',' ',' ',' ',' ',' ',' ',' ',' ',1990,' ',' ',' ',' ',' ',' ',' ',' ',' ',2000,' ',' ',' ',' ',' ',' ',' ',' ',' ',2010,' ',' ',' ',' '];
+	$scope.hist_data=[[]];
 
 	var map = new L.map('map').setView([39.0997, -97.5783], 4);
 
@@ -583,14 +619,16 @@ ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$htt
 
 	$http.get('https://dev13895.service-now.com/state_names.do?name=James')
 		.success(function(data){
-			$scope.name_data = data;
+			$scope.name_data = data.map_data;
 			$scope.loadGeo(data);
 		});
 
 	$scope.getName = function(name) {
 			$http.get('https://dev13895.service-now.com/state_names.do?name='+name)
 			.success(function(data){
-				$scope.name_data = data;
+				$scope.name_data = data.map_data;
+				$scope.hist_data = [];
+				$scope.hist_data.push(JSON.parse(data.hist_data));
 				$scope.play_ctrl_class = "";
 				$scope.resetAnimation();
 				$scope.play_ctrl_class = "animated rubberBand";
@@ -637,7 +675,7 @@ ngAppControllers.controller('stateNamesController', ['$scope', '$timeout', '$htt
 			onEachFeature: function (feature, layer) {
 			}
 		});
-
+		$scope.updateHistLine();
 		map.addLayer($scope.state_geo_layer);
 		$scope.loading = false;
 
